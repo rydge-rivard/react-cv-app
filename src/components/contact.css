@@ -8,7 +8,8 @@ label {
   padding: 0 6px 0 0;
 }
 
-.contact form {
+.contact form,
+.education form {
   display: flex;
   gap: 8px;
   flex-direction: column;
@@ -16,11 +17,13 @@ label {
   padding: 24px;
 }
 
-.contact h2 {
+.contact h2,
+.education h2 {
   font-size: 24px;
   font-weight: 500;
 }
 
-section.contact {
+section.contact,
+section.education {
   padding: 36px 24px;
 }

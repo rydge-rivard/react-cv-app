@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import "./contact.css";
 
-export default function Contact({ person, setPerson }) {
+export function Contact({ person, setPerson }) {
   return (
     <section className="contact">
       <h2>Contact Details</h2>
