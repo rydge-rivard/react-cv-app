@@ -1,0 +1,21 @@
+.app {
+  display: flex;
+  justify-content: center;
+  width: clamp(360px, 1000px, 1400px);
+}
+
+.display {
+  border: 1px solid black;
+  aspect-ratio: 1/1.294;
+  margin: 20px;
+  flex: 1;
+}
+
+.editor {
+  width: clamp(200px, 400px, 600px);
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+}

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Contact from "./components/contact.jsx";
+import "./App.css";
 
 function App() {
   const [person, setPerson] = useState({
@@ -10,15 +11,17 @@ function App() {
   });
 
   return (
-    <>
-      <h1>CV Builder</h1>
-      <Contact person={person} setPerson={setPerson} />
-      <section className="cv"></section>
-      <div>{person.name}</div>
-      <div>{person.address}</div>
-      <div>{person.email}</div>
-      <div>{person.phone}</div>
-    </>
+    <div className="app">
+      <section className="editor">
+        <Contact person={person} setPerson={setPerson} />
+      </section>
+      <section className="display">
+        <div>{person.name}</div>
+        <div>{person.address}</div>
+        <div>{person.email}</div>
+        <div>{person.phone}</div>
+      </section>
+    </div>
   );
 }
 
