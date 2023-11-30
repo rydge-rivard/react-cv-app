@@ -93,10 +93,40 @@ function ContactFields() {
 }
 
 function EduForm({ education, setEducation, inputs, setInputs }) {
+  function isEdit() {
+    let isEdit = false;
+    education.forEach((edu) => {
+      if (edu.id === inputs.id) {
+        isEdit = true;
+      }
+    });
+    return isEdit;
+  }
+
   function handleEduSubmit(e) {
     e.preventDefault();
+
     if (inputs.school === "") return;
-    setEducation([...education, inputs]);
+    if (isEdit()) {
+      setEducation(
+        education.map((edu) => {
+          if (edu.id === inputs.id) {
+            return {
+              ...edu,
+              school: inputs.school,
+              program: inputs.program,
+              startDate: inputs.startDate,
+              endDate: inputs.endDate,
+            };
+          } else {
+            return edu;
+          }
+        })
+      );
+    } else {
+      setEducation([...education, inputs]);
+    }
+
     setInputs({
       school: "",
       program: "",
@@ -251,6 +281,7 @@ function App() {
       if (edu.id === id) {
         setEduInputs({
           ...eduInputs,
+          id: edu.id,
           school: edu.school,
           program: edu.program,
           startDate: edu.startDate,
