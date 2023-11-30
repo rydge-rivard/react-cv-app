@@ -17,15 +17,15 @@ const EDUCATION = [
   {
     school: "Brock U",
     program: "Business",
-    startDate: "2023/1/1",
-    endDate: "2023/2/2",
+    startDate: "2023-01-01",
+    endDate: "2023-02-02",
     id: crypto.randomUUID(),
   },
   {
     school: "The Odin Project",
     program: "Web Development",
-    startDate: "2023/3/1",
-    endDate: "2023/5/2",
+    startDate: "2023-03-01",
+    endDate: "2023-05-02",
     id: crypto.randomUUID(),
   },
 ];
@@ -34,24 +34,24 @@ const JOBS = [
   {
     employer: "NASA",
     title: "Spaceman",
-    startDate: "2023/1/1",
-    endDate: "2023/2/2",
+    startDate: "2023-01-01",
+    endDate: "2023-02-02",
     description: "Head of space technologies",
     id: crypto.randomUUID(),
   },
   {
     employer: "Strawberry Tyme Farms",
     title: "Labourer",
-    startDate: "2009/1/1",
-    endDate: "2015/2/2",
+    startDate: "2009-01-01",
+    endDate: "2015-02-02",
     description: "Box folding expert",
     id: crypto.randomUUID(),
   },
   {
     employer: "Dialpad",
     title: "Renewal Manager",
-    startDate: "2021/1/1",
-    endDate: "2023/1/1",
+    startDate: "2021-01-01",
+    endDate: "2023-01-01",
     description: "Renewing big customer contracts",
     id: crypto.randomUUID(),
   },
@@ -92,32 +92,24 @@ function ContactFields() {
   );
 }
 
-function EduForm({ education, setEducation }) {
-  const [inputs, setInputs] = useState({
-    school: "",
-    program: "",
-    startDate: "",
-    endDate: "",
-    id: crypto.randomUUID(),
-  });
+function EduForm({ education, setEducation, inputs, setInputs }) {
+  function handleEduSubmit(e) {
+    e.preventDefault();
+    if (inputs.school === "") return;
+    setEducation([...education, inputs]);
+    setInputs({
+      school: "",
+      program: "",
+      startDate: "",
+      endDate: "",
+      id: crypto.randomUUID(),
+    });
+  }
 
   return (
     <section className="form">
       <h2>Education Details</h2>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (inputs.school === "") return;
-          setEducation([...education, inputs]);
-          setInputs({
-            school: "",
-            program: "",
-            startDate: "",
-            endDate: "",
-            id: crypto.randomUUID(),
-          });
-        }}
-      >
+      <form onSubmit={(e) => handleEduSubmit(e)}>
         <EducationFields inputs={inputs} setInputs={setInputs} />
         <button type="submit">Submit</button>
       </form>
@@ -191,18 +183,26 @@ function ListItem({ value, id }) {
   return <li key={id}>{value}</li>;
 }
 
-function EduInfo({ education }) {
+function EduInfo({ education, onEdit }) {
   const recordSet = [];
   education.forEach((info) => {
     recordSet.push(
       <ul key={info.id}>
-        {<ListItem value={info.school} key={info.school} />}
-        {<ListItem value={info.program} key={info.program} />}
-        {<ListItem value={info.startDate} key={info.startDate} />}
-        {<ListItem value={info.endDate} key={info.endDate} />}
+        {<ListItem value={info.school} key={info.id + "-school"} />}
+        {<ListItem value={info.program} key={info.id + "-program"} />}
+        {<ListItem value={info.startDate} key={info.id + "-start"} />}
+        {<ListItem value={info.endDate} key={info.id + "-end"} />}
       </ul>
     );
-    recordSet.push(<button>Edit</button>);
+    recordSet.push(
+      <button
+        onClick={() => {
+          onEdit(info.id);
+        }}
+      >
+        Edit
+      </button>
+    );
   });
   return (
     <div className="record">
@@ -238,18 +238,44 @@ function App() {
   const [eduList, setEduList] = useState(EDUCATION);
   const [jobsList, setJobsList] = useState(JOBS);
   const [contactList, setContactList] = useState(CONTACT);
+  const [eduInputs, setEduInputs] = useState({
+    school: "",
+    program: "",
+    startDate: "",
+    endDate: "",
+    id: crypto.randomUUID(),
+  });
+
+  function handleEduEdit(id) {
+    eduList.forEach((edu) => {
+      if (edu.id === id) {
+        setEduInputs({
+          ...eduInputs,
+          school: edu.school,
+          program: edu.program,
+          startDate: edu.startDate,
+          endDate: edu.endDate,
+        });
+      }
+    });
+  }
 
   return (
     <div className="app">
       <section className="editor">
         <FormSection title={"Contact Details"} fields={ContactFields()} />
-        <EduForm education={eduList} setEducation={setEduList} />
+        <EduForm
+          education={eduList}
+          setEducation={setEduList}
+          inputs={eduInputs}
+          setInputs={setEduInputs}
+        />
         <FormSection title={"Job Details"} fields={JobFields()} />
       </section>
       <section className="display">
         <ContactInfo contact={contactList} />
         <br />
-        <EduInfo education={eduList} />
+        <EduInfo education={eduList} onEdit={(id) => handleEduEdit(id)} />
         <br />
         <JobInfo jobs={jobsList} />
       </section>
