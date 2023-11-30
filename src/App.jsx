@@ -6,8 +6,9 @@ const CONTACT = [
   {
     name: "Rydge",
     address: "Earth",
-    startDate: "2023/1/1",
-    endDate: "2023/2/2",
+    email: "rydge@winner.ca",
+    phone: "(226) 567 0000",
+    id: crypto.randomUUID(),
   },
 ];
 
@@ -17,12 +18,14 @@ const EDUCATION = [
     program: "Business",
     startDate: "2023/1/1",
     endDate: "2023/2/2",
+    id: crypto.randomUUID(),
   },
   {
     school: "The Odin Project",
     program: "Web Development",
     startDate: "2023/3/1",
     endDate: "2023/5/2",
+    id: crypto.randomUUID(),
   },
 ];
 
@@ -33,6 +36,7 @@ const JOBS = [
     startDate: "2023/1/1",
     endDate: "2023/2/2",
     description: "Head of space technologies",
+    id: crypto.randomUUID(),
   },
   {
     employer: "Strawberry Tyme Farms",
@@ -40,6 +44,7 @@ const JOBS = [
     startDate: "2009/1/1",
     endDate: "2015/2/2",
     description: "Box folding expert",
+    id: crypto.randomUUID(),
   },
   {
     employer: "Dialpad",
@@ -47,6 +52,7 @@ const JOBS = [
     startDate: "2021/1/1",
     endDate: "2023/1/1",
     description: "Renewing big customer contracts",
+    id: crypto.randomUUID(),
   },
 ];
 
@@ -110,35 +116,53 @@ function JobFields() {
   );
 }
 
-function Editors() {
-  return (
-    <section className="editor">
-      <FormSection title={"Contact Details"} fields={ContactFields()} />
-      <FormSection title={"Education Details"} fields={EducationFields()} />
-      <FormSection title={"Job Details"} fields={JobFields()} />
-    </section>
-  );
+function ContactInfo({ contact }) {
+  const recordSet = [];
+  contact.forEach((info) => {
+    recordSet.push(
+      <ul key={info.id}>
+        {<ListItem value={info.name} key={info.name} />}
+        {<ListItem value={info.address} key={info.address} />}
+        {<ListItem value={info.email} key={info.email} />}
+        {<ListItem value={info.phone} key={info.phone} />}
+      </ul>
+    );
+  });
+  return <>{recordSet}</>;
+}
+
+function ListItem({ value, id }) {
+  return <li key={id}>{value}</li>;
+}
+
+function EduInfo({ education }) {
+  const recordSet = [];
+  education.forEach((info) => {
+    recordSet.push(
+      <ul key={info.id}>
+        {<ListItem value={info.school} key={info.school} />}
+        {<ListItem value={info.program} key={info.program} />}
+        {<ListItem value={info.startDate} key={info.startDate} />}
+        {<ListItem value={info.endDate} key={info.endDate} />}
+      </ul>
+    );
+    recordSet.push(<button>Edit</button>);
+  });
+  return <>{recordSet}</>;
 }
 
 function App() {
   return (
     <div className="app">
-      <Editors />
+      <section className="editor">
+        <FormSection title={"Contact Details"} fields={ContactFields()} />
+        <FormSection title={"Education Details"} fields={EducationFields()} />
+        <FormSection title={"Job Details"} fields={JobFields()} />
+      </section>
       <section className="display">
-        <ul>
-          <li>Rydge</li>
-          <li>Ontario</li>
-          <li>rydge@test.ca</li>
-          <li>226-454-3124</li>
-        </ul>
+        <ContactInfo contact={CONTACT} />
         <br />
-        <ul>
-          <li>Brock U</li>
-          <li>MBA</li>
-          <li>2023/12/12</li>
-          <li>2023/12/12</li>
-        </ul>
-        <button>Edit</button>
+        <EduInfo education={EDUCATION} />
         <br />
         <ul>
           <li>Dennis Horseradish</li>
