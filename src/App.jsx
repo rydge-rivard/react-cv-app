@@ -176,15 +176,93 @@ function EducationFields({ inputs, setInputs }) {
   );
 }
 
-function JobFields() {
+function JobForm({ jobs, setJobs, inputs, setInputs }) {
+  function isEdit() {
+    let isEdit = false;
+    jobs.forEach((edu) => {
+      if (edu.id === inputs.id) {
+        isEdit = true;
+      }
+    });
+    return isEdit;
+  }
+
+  function handleJobSubmit(e) {
+    e.preventDefault();
+
+    if (inputs.school === "") return;
+    if (isEdit()) {
+      setJobs(
+        jobs.map((job) => {
+          if (job.id === inputs.id) {
+            return {
+              ...job,
+              employer: inputs.employer,
+              title: inputs.title,
+              startDate: inputs.startDate,
+              endDate: inputs.endDate,
+              description: inputs.description,
+            };
+          } else {
+            return job;
+          }
+        })
+      );
+    } else {
+      setJobs([...jobs, inputs]);
+    }
+
+    setInputs({
+      employer: "",
+      title: "",
+      startDate: "",
+      endDate: "",
+      description: "",
+      id: crypto.randomUUID(),
+    });
+  }
+
+  return (
+    <section className="form">
+      <h2>Work Details</h2>
+      <form onSubmit={(e) => handleJobSubmit(e)}>
+        <JobFields inputs={inputs} setInputs={setInputs} />
+        <button type="submit">Submit</button>
+      </form>
+    </section>
+  );
+}
+
+function JobFields({ inputs, setInputs }) {
   return (
     <>
-      <Input label="Employer:"></Input>
-      <Input label="Title:"></Input>
-      <Input label="Start Date:" typeOf="date"></Input>
-      <Input label="End Date:" typeOf="date"></Input>
-      <Input label="Description:"></Input>
-      <button type="submit">Submit</button>
+      <Input
+        label="Employer:"
+        text={inputs.employer}
+        handler={(e) => setInputs({ ...inputs, employer: e.target.value })}
+      ></Input>
+      <Input
+        label="Title:"
+        text={inputs.title}
+        handler={(e) => setInputs({ ...inputs, title: e.target.value })}
+      ></Input>
+      <Input
+        label="Start Date:"
+        typeOf="date"
+        text={inputs.startDate}
+        handler={(e) => setInputs({ ...inputs, startDate: e.target.value })}
+      ></Input>
+      <Input
+        label="End Date:"
+        typeOf="date"
+        text={inputs.endDate}
+        handler={(e) => setInputs({ ...inputs, endDate: e.target.value })}
+      ></Input>
+      <Input
+        label="Description:"
+        text={inputs.description}
+        handler={(e) => setInputs({ ...inputs, description: e.target.value })}
+      ></Input>
     </>
   );
 }
@@ -242,7 +320,7 @@ function EduInfo({ education, onEdit }) {
   );
 }
 
-function JobInfo({ jobs }) {
+function JobInfo({ jobs, onEdit }) {
   const recordSet = [];
   jobs.forEach((info) => {
     recordSet.push(
@@ -254,7 +332,15 @@ function JobInfo({ jobs }) {
         {<ListItem value={info.description} key={info.description} />}
       </ul>
     );
-    recordSet.push(<button>Edit</button>);
+    recordSet.push(
+      <button
+        onClick={() => {
+          onEdit(info.id);
+        }}
+      >
+        Edit
+      </button>
+    );
   });
   return (
     <div className="record">
@@ -275,6 +361,14 @@ function App() {
     endDate: "",
     id: crypto.randomUUID(),
   });
+  const [jobInputs, setJobInputs] = useState({
+    employer: "",
+    title: "",
+    startDate: "",
+    endDate: "",
+    description: "",
+    id: crypto.randomUUID(),
+  });
 
   function handleEduEdit(id) {
     eduList.forEach((edu) => {
@@ -291,6 +385,22 @@ function App() {
     });
   }
 
+  function handleJobEdit(id) {
+    jobsList.forEach((job) => {
+      if (job.id === id) {
+        setJobInputs({
+          ...jobInputs,
+          employer: job.employer,
+          title: job.title,
+          startDate: job.startDate,
+          endDate: job.endDate,
+          description: job.description,
+          id: job.id,
+        });
+      }
+    });
+  }
+
   return (
     <div className="app">
       <section className="editor">
@@ -301,14 +411,19 @@ function App() {
           inputs={eduInputs}
           setInputs={setEduInputs}
         />
-        <FormSection title={"Job Details"} fields={JobFields()} />
+        <JobForm
+          jobs={jobsList}
+          setJobs={setJobsList}
+          inputs={jobInputs}
+          setInputs={setJobInputs}
+        />
       </section>
       <section className="display">
         <ContactInfo contact={contactList} />
         <br />
         <EduInfo education={eduList} onEdit={(id) => handleEduEdit(id)} />
         <br />
-        <JobInfo jobs={jobsList} />
+        <JobInfo jobs={jobsList} onEdit={(id) => handleJobEdit(id)} />
       </section>
     </div>
   );
