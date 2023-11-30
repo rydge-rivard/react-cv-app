@@ -3,16 +3,13 @@
 import { useState } from "react";
 import "./App.css";
 
-const CONTACT = [
-  {
-    name: "Rydge",
-    address: "Earth",
-    email: "rydge@winner.ca",
-    phone: "(226) 567 0000",
-    id: crypto.randomUUID(),
-  },
-];
-
+const CONTACT = {
+  name: "Rydge",
+  address: "Earth",
+  email: "rydge@winner.ca",
+  phone: "(226) 567 0000",
+  id: crypto.randomUUID(),
+};
 const EDUCATION = [
   {
     school: "Brock U",
@@ -79,22 +76,42 @@ function Input({
   );
 }
 
-function FormSection({ title, fields }) {
+function ContactForm({ contact, setContact }) {
   return (
     <section className="form">
-      <h2>{title}</h2>
-      <form>{fields}</form>
+      <h2>Contact Details</h2>
+      <form>
+        <ContactFields contact={contact} setContact={setContact} />
+      </form>
     </section>
   );
 }
 
-function ContactFields() {
+function ContactFields({ contact, setContact }) {
   return (
     <>
-      <Input label="Full Name:"></Input>
-      <Input label="Address:"></Input>
-      <Input label="Email:" typeOf="email"></Input>
-      <Input label="Phone Number:" typeOf="tel"></Input>
+      <Input
+        label="Full Name:"
+        text={contact.name}
+        handler={(e) => setContact({ ...contact, name: e.target.value })}
+      ></Input>
+      <Input
+        label="Address:"
+        text={contact.address}
+        handler={(e) => setContact({ ...contact, address: e.target.value })}
+      ></Input>
+      <Input
+        label="Email:"
+        typeOf="email"
+        text={contact.email}
+        handler={(e) => setContact({ ...contact, email: e.target.value })}
+      ></Input>
+      <Input
+        label="Phone Number:"
+        typeOf="tel"
+        text={contact.phone}
+        handler={(e) => setContact({ ...contact, phone: e.target.value })}
+      ></Input>
     </>
   );
 }
@@ -144,7 +161,7 @@ function EduForm({ education, setEducation, inputs, setInputs }) {
 
   return (
     <section className="form">
-      <h2>Education Details</h2>
+      <h2>Add Education Details</h2>
       <form onSubmit={(e) => handleEduSubmit(e)}>
         <EducationFields inputs={inputs} setInputs={setInputs} />
         <button type="submit">Submit</button>
@@ -231,7 +248,7 @@ function JobForm({ jobs, setJobs, inputs, setInputs }) {
 
   return (
     <section className="form">
-      <h2>Work Details</h2>
+      <h2>Add Work Details</h2>
       <form onSubmit={(e) => handleJobSubmit(e)}>
         <JobFields inputs={inputs} setInputs={setInputs} />
         <button type="submit">Submit</button>
@@ -276,18 +293,16 @@ function JobFields({ inputs, setInputs }) {
   );
 }
 
-function ContactInfo({ contact }) {
+function ContactInfo({ contact, setContact }) {
   const recordSet = [];
-  contact.forEach((info) => {
-    recordSet.push(
-      <ul key={info.id}>
-        {<ListItem value={info.name} key={info.name} />}
-        {<ListItem value={info.address} key={info.address} />}
-        {<ListItem value={info.email} key={info.email} />}
-        {<ListItem value={info.phone} key={info.phone} />}
-      </ul>
-    );
-  });
+  recordSet.push(
+    <ul key={contact.id}>
+      {<ListItem value={contact.name} key={contact.name} />}
+      {<ListItem value={contact.address} key={contact.address} />}
+      {<ListItem value={contact.email} key={contact.email} />}
+      {<ListItem value={contact.phone} key={contact.phone} />}
+    </ul>
+  );
   return (
     <div className="record">
       <h3>Personal Information</h3>
@@ -413,7 +428,7 @@ function App() {
   return (
     <div className="app">
       <section className="editor">
-        <FormSection title={"Contact Details"} fields={ContactFields()} />
+        <ContactForm contact={contactList} setContact={setContactList} />
         <EduForm
           education={eduList}
           setEducation={setEduList}
@@ -428,7 +443,7 @@ function App() {
         />
       </section>
       <section className="display">
-        <ContactInfo contact={contactList} />
+        <ContactInfo contact={contactList} setContact={setContactList} />
         <br />
         <EduInfo education={eduList} onEdit={(id) => handleEduEdit(id)} />
         <br />
