@@ -94,10 +94,10 @@ function ContactFields() {
 
 function EduForm({ education, setEducation }) {
   const [inputs, setInputs] = useState({
-    school: "Harvard",
-    program: "MBA",
-    startDate: "2023-01-01",
-    endDate: "2023-02-02",
+    school: "",
+    program: "",
+    startDate: "",
+    endDate: "",
     id: crypto.randomUUID(),
   });
 
@@ -107,7 +107,15 @@ function EduForm({ education, setEducation }) {
       <form
         onSubmit={(e) => {
           e.preventDefault();
+          if (inputs.school === "") return;
           setEducation([...education, inputs]);
+          setInputs({
+            school: "",
+            program: "",
+            startDate: "",
+            endDate: "",
+            id: crypto.randomUUID(),
+          });
         }}
       >
         <EducationFields inputs={inputs} setInputs={setInputs} />
@@ -171,7 +179,12 @@ function ContactInfo({ contact }) {
       </ul>
     );
   });
-  return <>{recordSet}</>;
+  return (
+    <div className="record">
+      <h3>Personal Information</h3>
+      {recordSet}
+    </div>
+  );
 }
 
 function ListItem({ value, id }) {
@@ -191,7 +204,12 @@ function EduInfo({ education }) {
     );
     recordSet.push(<button>Edit</button>);
   });
-  return <>{recordSet}</>;
+  return (
+    <div className="record">
+      <h3>Education</h3>
+      {recordSet}
+    </div>
+  );
 }
 
 function JobInfo({ jobs }) {
@@ -208,7 +226,12 @@ function JobInfo({ jobs }) {
     );
     recordSet.push(<button>Edit</button>);
   });
-  return <>{recordSet}</>;
+  return (
+    <div className="record">
+      <h3>Work Experience</h3>
+      {recordSet}
+    </div>
+  );
 }
 
 function App() {
