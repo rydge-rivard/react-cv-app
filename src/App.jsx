@@ -63,11 +63,18 @@ function Input({
   text,
   handler,
   id = crypto.randomUUID(),
+  isRequired = false,
 }) {
   return (
     <>
       <label htmlFor={id}>{label}</label>
-      <input type={typeOf} value={text} onChange={handler} id={id}></input>
+      <input
+        type={typeOf}
+        value={text}
+        onChange={handler}
+        id={id}
+        required={isRequired}
+      ></input>
     </>
   );
 }
@@ -106,7 +113,6 @@ function EduForm({ education, setEducation, inputs, setInputs }) {
   function handleEduSubmit(e) {
     e.preventDefault();
 
-    if (inputs.school === "") return;
     if (isEdit()) {
       setEducation(
         education.map((edu) => {
@@ -151,14 +157,16 @@ function EducationFields({ inputs, setInputs }) {
   return (
     <>
       <Input
-        label="School:"
+        label="*School:"
         text={inputs.school}
         handler={(e) => setInputs({ ...inputs, school: e.target.value })}
+        isRequired={true}
       ></Input>
       <Input
-        label="Name of Program:"
+        label="*Name of Program:"
         text={inputs.program}
         handler={(e) => setInputs({ ...inputs, program: e.target.value })}
+        isRequired={true}
       ></Input>
       <Input
         label="Start Date:"
@@ -190,7 +198,6 @@ function JobForm({ jobs, setJobs, inputs, setInputs }) {
   function handleJobSubmit(e) {
     e.preventDefault();
 
-    if (inputs.school === "") return;
     if (isEdit()) {
       setJobs(
         jobs.map((job) => {
@@ -237,14 +244,16 @@ function JobFields({ inputs, setInputs }) {
   return (
     <>
       <Input
-        label="Employer:"
+        label="*Employer:"
         text={inputs.employer}
         handler={(e) => setInputs({ ...inputs, employer: e.target.value })}
+        isRequired={true}
       ></Input>
       <Input
-        label="Title:"
+        label="*Title:"
         text={inputs.title}
         handler={(e) => setInputs({ ...inputs, title: e.target.value })}
+        isRequired={true}
       ></Input>
       <Input
         label="Start Date:"
