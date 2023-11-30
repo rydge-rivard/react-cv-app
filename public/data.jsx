@@ -1,8 +1,8 @@
 export { CONTACT, EDUCATION, JOBS };
 
 const CONTACT = {
-  name: "Rydge",
-  address: "Earth",
+  name: "Rydge Rivard",
+  address: "Planet Earth",
   email: "rydge@winner.ca",
   phone: "(226) 567 0000",
   id: crypto.randomUUID(),

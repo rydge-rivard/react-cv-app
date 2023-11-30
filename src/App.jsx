@@ -2,6 +2,8 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import "./App.css";
+import "./components/Form.css";
+import "./components/Display.css";
 import { ContactForm } from "./components/ContactForm";
 import { EduForm } from "./components/EduForm";
 import { JobForm } from "./components/JobForm";
