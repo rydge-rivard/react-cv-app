@@ -92,14 +92,56 @@ function ContactFields() {
   );
 }
 
-function EducationFields() {
+function EduForm({ education, setEducation }) {
+  const [inputs, setInputs] = useState({
+    school: "Harvard",
+    program: "MBA",
+    startDate: "2023-01-01",
+    endDate: "2023-02-02",
+    id: crypto.randomUUID(),
+  });
+
+  return (
+    <section className="form">
+      <h2>Education Details</h2>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          setEducation([...education, inputs]);
+        }}
+      >
+        <EducationFields inputs={inputs} setInputs={setInputs} />
+        <button type="submit">Submit</button>
+      </form>
+    </section>
+  );
+}
+
+function EducationFields({ inputs, setInputs }) {
   return (
     <>
-      <Input label="School:"></Input>
-      <Input label="Name of Program:"></Input>
-      <Input label="Start Date:" typeOf="date"></Input>
-      <Input label="End Date:" typeOf="date"></Input>
-      <button type="submit">Submit</button>
+      <Input
+        label="School:"
+        text={inputs.school}
+        handler={(e) => setInputs({ ...inputs, school: e.target.value })}
+      ></Input>
+      <Input
+        label="Name of Program:"
+        text={inputs.program}
+        handler={(e) => setInputs({ ...inputs, program: e.target.value })}
+      ></Input>
+      <Input
+        label="Start Date:"
+        typeOf="date"
+        text={inputs.startDate}
+        handler={(e) => setInputs({ ...inputs, startDate: e.target.value })}
+      ></Input>
+      <Input
+        label="End Date:"
+        typeOf="date"
+        text={inputs.endDate}
+        handler={(e) => setInputs({ ...inputs, endDate: e.target.value })}
+      ></Input>
     </>
   );
 }
@@ -178,15 +220,15 @@ function App() {
     <div className="app">
       <section className="editor">
         <FormSection title={"Contact Details"} fields={ContactFields()} />
-        <FormSection title={"Education Details"} fields={EducationFields()} />
+        <EduForm education={eduList} setEducation={setEduList} />
         <FormSection title={"Job Details"} fields={JobFields()} />
       </section>
       <section className="display">
-        <ContactInfo contact={CONTACT} />
+        <ContactInfo contact={contactList} />
         <br />
-        <EduInfo education={EDUCATION} />
+        <EduInfo education={eduList} />
         <br />
-        <JobInfo jobs={JOBS} />
+        <JobInfo jobs={jobsList} />
       </section>
     </div>
   );
