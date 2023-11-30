@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
+import { useState } from "react";
 import "./App.css";
 
 const CONTACT = [
@@ -151,7 +152,28 @@ function EduInfo({ education }) {
   return <>{recordSet}</>;
 }
 
+function JobInfo({ jobs }) {
+  const recordSet = [];
+  jobs.forEach((info) => {
+    recordSet.push(
+      <ul key={info.id}>
+        {<ListItem value={info.employer} key={info.employer} />}
+        {<ListItem value={info.title} key={info.title} />}
+        {<ListItem value={info.startDate} key={info.startDate} />}
+        {<ListItem value={info.endDate} key={info.endDate} />}
+        {<ListItem value={info.description} key={info.description} />}
+      </ul>
+    );
+    recordSet.push(<button>Edit</button>);
+  });
+  return <>{recordSet}</>;
+}
+
 function App() {
+  const [eduList, setEduList] = useState(EDUCATION);
+  const [jobsList, setJobsList] = useState(JOBS);
+  const [contactList, setContactList] = useState(CONTACT);
+
   return (
     <div className="app">
       <section className="editor">
@@ -164,23 +186,7 @@ function App() {
         <br />
         <EduInfo education={EDUCATION} />
         <br />
-        <ul>
-          <li>Dennis Horseradish</li>
-          <li>General Manager</li>
-          <li>2023/12/12</li>
-          <li>2023/12/12</li>
-          <li>Responsible for day-to-day sales and business operations.</li>
-        </ul>
-        <button>Edit</button>
-        <br />
-        <ul>
-          <li>Strawberry Tyme Farm</li>
-          <li>General Labour</li>
-          <li>2012/12/12</li>
-          <li>2013/12/12</li>
-          <li>Folding boxes for fruits.</li>
-        </ul>
-        <button>Edit</button>
+        <JobInfo jobs={JOBS} />
       </section>
     </div>
   );
