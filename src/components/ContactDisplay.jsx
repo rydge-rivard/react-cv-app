@@ -11,12 +11,7 @@ function ContactInfo({ contact }) {
       {<ListItem value={contact.phone} key={contact.phone} />}
     </ul>
   );
-  return (
-    <div className="record">
-      <h3>Personal Information</h3>
-      {recordSet}
-    </div>
-  );
+  return <div className="record contact">{recordSet}</div>;
 }
 
 function ListItem({ value, id }) {

@@ -1,52 +1,55 @@
 export { CONTACT, EDUCATION, JOBS };
 
 const CONTACT = {
-  name: "Rydge Rivard",
-  address: "Planet Earth",
+  name: "Buzz Lightyear",
+  address: "290 Bremner Blvd, Toronto, ON M5V 3L9, Canada",
   email: "rydge@winner.ca",
   phone: "(226) 567 0000",
   id: crypto.randomUUID(),
 };
 const EDUCATION = [
   {
-    school: "Brock U",
-    program: "Business",
-    startDate: "2023-01-01",
-    endDate: "2023-02-02",
+    school: "University of Space Sciences",
+    program: "Ph.D. in Aerospace Engineering",
+    startDate: "2012-01-01",
+    endDate: "2016-02-02",
     id: crypto.randomUUID(),
   },
   {
-    school: "The Odin Project",
-    program: "Web Development",
-    startDate: "2023-03-01",
-    endDate: "2023-05-02",
+    school: "University of Astronomy",
+    program: "Master of Science in Astrophysics",
+    startDate: "2008-03-01",
+    endDate: "2011-03-02",
     id: crypto.randomUUID(),
   },
 ];
 
 const JOBS = [
   {
-    employer: "NASA",
-    title: "Spaceman",
+    employer: "Advanced Rocket Technologies",
+    title: "Aerospace Engineer",
     startDate: "2023-01-01",
     endDate: "2023-02-02",
-    description: "Head of space technologies",
+    description:
+      "- Contributed to the development of next-generation propulsion systems for deep-space exploration.",
     id: crypto.randomUUID(),
   },
   {
-    employer: "Strawberry Tyme Farms",
-    title: "Labourer",
-    startDate: "2009-01-01",
-    endDate: "2015-02-02",
-    description: "Box folding expert",
+    employer: "Space Exploration Institute, Houston",
+    title: "Research Scientist",
+    startDate: "2020-01-01",
+    endDate: "2022-01-01",
+    description:
+      "- Conducted groundbreaking research on the effects of microgravity on plant growth, contributing to NASA's efforts in sustainable space farming.",
     id: crypto.randomUUID(),
   },
   {
-    employer: "Dialpad",
-    title: "Renewal Manager",
-    startDate: "2021-01-01",
-    endDate: "2023-01-01",
-    description: "Renewing big customer contracts",
+    employer: "NASA Johnson Space Center",
+    title: "Mission Specialist",
+    startDate: "2018-01-01",
+    endDate: "2019-01-01",
+    description:
+      "- Actively participated in mission planning, simulation, and execution for various space shuttle missions.",
     id: crypto.randomUUID(),
   },
 ];
